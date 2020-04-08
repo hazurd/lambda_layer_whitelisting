@@ -2,16 +2,7 @@ import os
 import boto3
 
 aws_region = os.getenv("AWS_DEFAULT_REGION", "us-east-1")
-compatible_runtime_list = ["python3.6", "python3.7", "python3.8"]
-if os.getenv("AWS_PROFILE"):
-    lambda_client = boto3.client("lambda", region_name=aws_region)
-else:
-    lambda_client = boto3.client(
-        "lambda",
-        aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID", "noKey"),
-        aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY", "noSecret"),
-        region_name=aws_region,
-    )
+lambda_client = boto3.client("lambda", region_name=aws_region)
 
 
 def list_latest_layer_version_arns():
