@@ -7,3 +7,7 @@ Usage:
 - pip install layer_whitelisting
 - export LAYER_PERMISSION_ACCOUNT_ID to be equal to the requesting customer's AWS account ID
 - python layer_whitelisting/lambda_layer_permission.py
+
+Limitations:
+
+- one time use per unique LAYER_PERMISSION_ACCOUNT_ID, no error checking on existing LayerVersionPermission SIDs
