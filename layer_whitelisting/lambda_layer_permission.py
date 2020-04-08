@@ -7,15 +7,13 @@ lambda_client = boto3.client("lambda", region_name=aws_region)
 
 def list_latest_layer_version_arns():
     layers = []
-    c = 0
-    for i in lambda_client.list_layers():
+    for c, i in enumerate(lambda_client.list_layers()):
         layers.append(
             lambda_client.list_layers()
             .get("Layers")[c]
             .get("LatestMatchingVersion")
             .get("LayerVersionArn")
         )
-        c = c + 1
     return layers
 
 
