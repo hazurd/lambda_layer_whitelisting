@@ -22,10 +22,11 @@ def add_layer_version_permission(principal):
     for arn in list_latest_layer_version_arns():
         layer_name = arn.split(":")[6]
         version_num = int(arn.split(":")[7])
+        sid = f"Allow-{principal}-on-{layer_name}-v{version_num}"
         lambda_client.add_layer_version_permission(
             LayerName=layer_name,
             VersionNumber=version_num,
-            StatementId=f"Allow-{principal}-on-{layer_name}-v{version_num}",
+            StatementId=sid,
             Action=action,
             Principal=principal,
         )

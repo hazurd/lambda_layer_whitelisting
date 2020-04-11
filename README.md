@@ -1,3 +1,6 @@
+[![pipeline status](https://gitlab.com/hazurd1/lambda_layer_whitelisting/badges/develop/pipeline.svg)](https://gitlab.com/hazurd1/lambda_layer_whitelisting/-/commits/develop)
+[![coverage report](https://gitlab.com/hazurd1/lambda_layer_whitelisting/badges/develop/coverage.svg)](https://gitlab.com/hazurd1/lambda_layer_whitelisting/-/commits/develop)
+
 # lambda_layer_whitelisting
 
 Respecting the AWS API contract, ensure your credentials are properly exported to your env or in ~/.aws/ or equivalent
