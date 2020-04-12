@@ -17,7 +17,7 @@ stages:
   before_script:
     - pip install poetry
     - poetry --version
-    - poetry config settings.virtualenvs.in-project true
+    - poetry config --local virtualenvs.in-project true
     - poetry install -vv
 
 .quality-template: &quality
@@ -25,11 +25,15 @@ stages:
   image: python:3.6
   stage: quality
 
+.test-script: &test-script
+  - python -V
+  - poetry run pytest --cov-report term --cov=lambda_layer_whitelisting tests/
+
 .test-template: &test
   <<: *install-deps
   stage: tests
   coverage: '/TOTAL.*\s(\d+\.\d+\%)/'
-  script: make test
+  script: *test-script
   artifacts:
     paths:
       - tests/logs
@@ -37,25 +41,7 @@ stages:
     expire_in: 1 week
 
 # Quality jobs ----------------------
-check-bandit:
-  <<: *quality
-  script: make check-bandit
-
-check-black:
-  <<: *quality
-  script: make check-black
-
-check-flake8:
-  <<: *quality
-  script: make check-flake8
-
-check-isort:
-  <<: *quality
-  script: make check-isort
-
-check-safety:
-  <<: *quality
-  script: make check-safety
+# TODO: black/lint code on task -> feature merge request
 
 # Tests jobs ------------------------
 python3.6:
@@ -69,13 +55,3 @@ python3.7:
 python3.8:
   <<: *test
   image: python:3.8
-
-#test:
-#  stage: test
-#  script:
-#    - python -V
-#    - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
-#    - source $HOME/.poetry/env && poetry install
-#    - poetry run pytest --cov-report term --cov=lambda_layer_whitelisting tests/
-#  rules:
-#    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == 'develop'
