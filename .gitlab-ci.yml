@@ -8,13 +8,14 @@ cache:
     - .cache/pip
 
 test:
-  before_script:
+  stage: test
+  script:
     - python -V
     - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
     - source $HOME/.poetry/env && poetry install
-
-  script:
     - poetry run pytest --cov-report term --cov=lambda_layer_whitelisting tests/
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
 
 create_badge_svg:
   stage: build
