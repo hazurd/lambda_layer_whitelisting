@@ -15,21 +15,4 @@ test:
     - source $HOME/.poetry/env && poetry install
     - poetry run pytest --cov-report term --cov=lambda_layer_whitelisting tests/
   rules:
-    - if: $CI_MERGE_REQUEST_ID
-
-create_badge_svg:
-  stage: build
-  image: python:3.6.6
-  tags:
-    - docker
-  script:
-    - echo "Python other dependencies installation"
-  after_script:
-    - pip install anybadge
-    - commits=$(git rev-list --all --count)
-    - anybadge -l commits -v $commits -f commits.svg -c green
-  artifacts:
-    paths:
-        - commits.svg
-    when: always
-    expire_in: 4 weeks
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == 'develop'
